@@ -1,9 +1,9 @@
 <template>
   <div class="home-page">
     <div class="device-container">
-      <!-- Favoris Panel -->
-      <section class="device-section">
-        <FavoritesPanel :characters="allCharacters" @select-for-duel="addFighterFromFavorites" />
+      <!-- Favoris Panel - uniquement si des favoris existent -->
+      <section class="device-section" v-if="favoritesCount > 0">
+        <FavoritesPanel :characters="allCharacters" />
       </section>
 
       <!-- Filtres -->
@@ -27,17 +27,9 @@
             <div
               v-for="character in filteredCharacters"
               :key="character.id"
-              class="character-with-buttons"
+              class="character-card"
             >
               <CharacterCard :character="character" />
-              <div class="action-buttons">
-                <button @click="selectFighter1(character)" class="select-btn fighter1-btn">
-                  {{ $t('characters.fighter1') }}
-                </button>
-                <button @click="selectFighter2(character)" class="select-btn fighter2-btn">
-                  {{ $t('characters.fighter2') }}
-                </button>
-              </div>
             </div>
           </div>
 
@@ -55,11 +47,6 @@
           </div>
         </div>
       </section>
-
-      <!-- Duel Arena -->
-      <section class="device-section">
-        <DuelArena ref="duelRef" :characters="filteredCharacters" />
-      </section>
     </div>
   </div>
 </template>
@@ -69,11 +56,12 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import CharacterCard from '../components/CharacterCard.vue'
 import FilterBar from '../components/FilterBar.vue'
-import DuelArena from '../components/DuelArena.vue'
 import FavoritesPanel from '../components/FavoritesPanel.vue'
 import { getAllCharacters } from '../api'
+import { useWizardStore } from '../store'
 import type { Character } from '../types'
 
+// ========== STATE ==========
 const allCharacters = ref<Character[]>([])
 const loading = ref(true)
 const searchQuery = ref('')
@@ -84,7 +72,8 @@ const currentPage = ref(1)
 const itemsPerPage = 16
 const { t } = useI18n()
 
-const duelRef = ref<InstanceType<typeof DuelArena>>()
+// ========== COMPOSABLES ==========
+const wizardStore = useWizardStore()
 
 // ========== LIFECYCLE ==========
 
@@ -146,18 +135,10 @@ const filteredCharacters = computed(() => {
   return allFiltered.slice(startIndex, endIndex)
 })
 
-const selectFighter1 = (character: Character) => {
-  duelRef.value?.selectFighter(character, 1)
-}
+// Le nombre de favoris
+const favoritesCount = computed(() => wizardStore.favoritesCount)
 
-const selectFighter2 = (character: Character) => {
-  duelRef.value?.selectFighter(character, 2)
-}
-
-const addFighterFromFavorites = (character: Character) => {
-  // Quand on clique sur un favori, on le sélectionne comme Fighter 1
-  selectFighter1(character)
-}
+// ========== FONCTIONS ==========
 
 const handleRoleFilter = (args: [boolean, boolean]) => {
   // Mettre à jour les statuts Student/Staff
@@ -239,61 +220,10 @@ watch(selectedHouses, () => {
   margin-top: 20px;
 }
 
-.character-with-buttons {
+.character-card {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.action-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.select-btn {
-  padding: 10px 12px;
-  border: 3px outset var(--vintage-gold);
-  background: linear-gradient(135deg, var(--vintage-accent) 0%, var(--vintage-gold) 100%);
-  color: var(--vintage-dark);
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.2s;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-}
-
-.select-btn:hover {
-  background: linear-gradient(135deg, var(--vintage-gold) 0%, var(--vintage-accent) 100%);
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
-}
-
-.select-btn:active {
-  border-style: inset;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.fighter1-btn {
-  background: linear-gradient(135deg, var(--vintage-red) 0%, #a04a4a 100%);
-  border-color: var(--vintage-dark);
-  color: var(--vintage-cream);
-}
-
-.fighter1-btn:hover {
-  background: linear-gradient(135deg, #a04a4a 0%, var(--vintage-red) 100%);
-}
-
-.fighter2-btn {
-  background: linear-gradient(135deg, var(--vintage-teal) 0%, #5a8b7e 100%);
-  border-color: var(--vintage-dark);
-  color: var(--vintage-cream);
-}
-
-.fighter2-btn:hover {
-  background: linear-gradient(135deg, #5a8b7e 0%, var(--vintage-teal) 100%);
+  align-items: center;
+  justify-content: center;
 }
 
 .pagination-controls {

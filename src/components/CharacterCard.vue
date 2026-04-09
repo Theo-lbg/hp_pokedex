@@ -15,10 +15,10 @@
     </div>
     <div class="card-body">
       <h3>{{ character.name }}</h3>
-      <p><strong>{{ $t('detail.house') }}:</strong> {{ getHouseName(character.house) || $t('detail.unknown') }}</p>
+      <p><strong>{{ translate('detail.house') }}:</strong> {{ getHouseName(character.house) || translate('detail.unknown') }}</p>
       <p v-if="character.hogwartsStudent || character.hogwartsStaff">
-        <strong>{{ $t('detail.role') }}:</strong>
-        <span>{{ character.hogwartsStudent ? $t('filters.student') : '' }}{{ character.hogwartsStudent && character.hogwartsStaff ? ' & ' : '' }}{{ character.hogwartsStaff ? $t('filters.staff') : '' }}</span>
+        <strong>{{ translate('detail.role') }}:</strong>
+        <span>{{ character.hogwartsStudent ? translate('filters.student') : '' }}{{ character.hogwartsStudent && character.hogwartsStaff ? ' & ' : '' }}{{ character.hogwartsStaff ? translate('filters.staff') : '' }}</span>
       </p>
       <p v-if="character.patronus" class="patronus">
         🦌 {{ character.patronus }}
@@ -34,7 +34,7 @@ import { useI18n } from 'vue-i18n'
 import { useWizardStore } from '../store'
 import type { Character } from '../types'
 
-const { t: $t } = useI18n()
+const { t: translate } = useI18n()
 
 // ========== PROPS ==========
 const props = defineProps<{
@@ -55,7 +55,7 @@ const isFav = computed(() => wizardStore.isFavorite(props.character.id))
 // Récupérer le nom traduit d'une maison
 const getHouseName = (house: string) => {
   const houseKey = house.toLowerCase()
-  return $t(`houses.${houseKey}`)
+  return translate(`houses.${houseKey}`)
 }
 
 // Ajouter/Retirer de favoris
@@ -76,13 +76,7 @@ const goToDetail = () => {
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
   color: #fff;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(212, 175, 55, 0.3);
 }
 
 .card-image {
@@ -99,13 +93,6 @@ const goToDetail = () => {
   object-position: center top;
 }
 
-.card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s;
-}
-
 .placeholder-image {
   width: 100%;
   height: 100%;
@@ -115,10 +102,6 @@ const goToDetail = () => {
   font-size: 60px;
   background: linear-gradient(135deg, #1a1a3e 0%, #0f3460 100%);
   color: rgba(212, 175, 55, 0.3);
-}
-
-.card:hover .card-image img {
-  transform: scale(1.05);
 }
 
 .favorite-btn {

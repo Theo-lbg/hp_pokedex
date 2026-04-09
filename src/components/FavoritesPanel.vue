@@ -1,20 +1,20 @@
 <template>
   <div class="vintage-panel">
-    <div class="vintage-panel-header">{{ $t('favorites.title') }} ({{ wizardStore.favoritesCount }})</div>
+    <div class="vintage-panel-header">{{ translate('favorites.title') }} ({{ wizardStore.favoritesCount }})</div>
     <div v-if="wizardStore.favoritesCount > 0" class="favorites-grid">
       <div
         v-for="character in displayedFavorites"
         :key="character.id"
         class="favorite-item"
       >
-        <img :src="character.image" :alt="character.name" @click="selectAsFighter(character)" class="fav-image" />
+        <img :src="character.image" :alt="character.name" class="fav-image" />
         <p class="fav-name">{{ character.name }}</p>
         <button @click="wizardStore.toggleFavorite(character)" class="remove-btn">
           ✕
         </button>
       </div>
     </div>
-    <p v-else class="empty">{{ $t('favorites.empty') }}</p>
+    <p v-else class="empty">{{ translate('favorites.empty') }}</p>
   </div>
 </template>
 
@@ -24,14 +24,9 @@ import { useI18n } from 'vue-i18n'
 import { useWizardStore } from '../store'
 import type { Character } from '../types'
 
-const { t: $t } = useI18n()
+const { t: translate } = useI18n()
 const props = defineProps<{
   characters: Character[]
-}>()
-
-// ========== EMITS ==========
-const emit = defineEmits<{
-  selectForDuel: [character: Character]
 }>()
 
 // ========== COMPOSABLES ==========
@@ -43,13 +38,6 @@ const wizardStore = useWizardStore()
 const displayedFavorites = computed(() => {
   return props.characters.filter(char => wizardStore.isFavorite(char.id))
 })
-
-// ========== FONCTIONS ==========
-
-// Sélectionner un favori comme combattant
-const selectAsFighter = (character: Character) => {
-  emit('selectForDuel', character)
-}
 </script>
 
 <style scoped>

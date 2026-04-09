@@ -4,13 +4,13 @@
       <input
         v-model="searchQuery"
         type="text"
-        :placeholder="$t('filters.search')"
+        :placeholder="translate('filters.search')"
         class="search-input"
       />
     </div>
 
     <div class="filter-section">
-      <h3>{{ $t('filters.houses') }}</h3>
+      <h3>{{ translate('filters.houses') }}</h3>
       <div class="house-buttons">
         <button
           v-for="house in availableHouses"
@@ -25,20 +25,20 @@
     </div>
 
     <div class="filter-section">
-      <h3>{{ $t('filters.type') }}</h3>
+      <h3>{{ translate('filters.type') }}</h3>
       <div class="role-filters">
         <label>
           <input v-model="isStudent" type="checkbox" />
-          {{ $t('filters.student') }}
+          {{ translate('filters.student') }}
         </label>
         <label>
           <input v-model="isStaff" type="checkbox" />
-          {{ $t('filters.staff') }}
+          {{ translate('filters.staff') }}
         </label>
       </div>
     </div>
 
-    <button @click="resetFilters" class="reset-btn">{{ $t('filters.reset') }}</button>
+    <button @click="resetFilters" class="reset-btn">{{ translate('filters.reset') }}</button>
   </div>
 </template>
 
@@ -46,7 +46,7 @@
 import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-const { t: $t } = useI18n()
+const { t: translate } = useI18n()
 
 const emit = defineEmits<{
   search: [query: string]
@@ -67,7 +67,7 @@ const availableHouses = ['Gryffindor', 'Slytherin', 'Hufflepuff', 'Ravenclaw']
 // Récupérer le nom traduit d'une maison
 const getHouseName = (house: string) => {
   const houseKey = house.toLowerCase()
-  return $t(`houses.${houseKey}`)
+  return translate(`houses.${houseKey}`)
 }
 
 // Activer/désactiver une maison dans les filtres

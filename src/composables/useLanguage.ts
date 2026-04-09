@@ -16,7 +16,7 @@ export function useLanguage() {
 
   // ========== INITIALIZATION ==========
   // Au démarrage : restaurer la langue sauvegardée
-  locale.value = (savedLocale.value as any) || 'fr'
+  locale.value = (savedLocale.value as string) || 'fr'
 
   // ========== FONCTIONS ==========
 
