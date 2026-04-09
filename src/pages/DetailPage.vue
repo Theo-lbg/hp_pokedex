@@ -103,8 +103,8 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { getCharacterById } from '../api'
-import { useWizardStore } from '../store'
-import type { Character } from '../types'
+import { useWizardStore } from '../stores/store'
+import type { Character } from '../types/types'
 
 // ========== COMPOSABLES ==========
 const route = useRoute()

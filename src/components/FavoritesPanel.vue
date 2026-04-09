@@ -21,8 +21,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useWizardStore } from '../store'
-import type { Character } from '../types'
+import { useWizardStore } from '../stores/store'
+import type { Character } from '../types/types'
 
 const { t: translate } = useI18n()
 const props = defineProps<{

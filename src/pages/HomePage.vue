@@ -58,8 +58,8 @@ import CharacterCard from '../components/CharacterCard.vue'
 import FilterBar from '../components/FilterBar.vue'
 import FavoritesPanel from '../components/FavoritesPanel.vue'
 import { getAllCharacters } from '../api'
-import { useWizardStore } from '../store'
-import type { Character } from '../types'
+import { useWizardStore } from '../stores/store'
+import type { Character } from '../types/types'
 
 // ========== STATE ==========
 const allCharacters = ref<Character[]>([])

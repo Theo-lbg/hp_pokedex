@@ -31,8 +31,8 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useWizardStore } from '../store'
-import type { Character } from '../types'
+import { useWizardStore } from '../stores/store'
+import type { Character } from '../types/types'
 
 const { t: translate } = useI18n()
 

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { Character, House } from './types'
+import type { Character, House } from './types/types'
 
 // ========== CONFIGURATION ==========
 

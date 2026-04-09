@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
 import { ref, computed } from 'vue'
-import type { Character } from './types'
+import type { Character } from '../types/types'
 
 export const useWizardStore = defineStore('wizard', () => {
   // ========== STATE ==========
