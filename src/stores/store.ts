@@ -9,7 +9,7 @@ export const useWizardStore = defineStore('wizard', () => {
   // Favoris avec sauvegarde locale
   const favorites = useLocalStorage<string[]>('hp_favorites', [])
 
-  // Statistiques des duels (sauvegardées)
+  // Statistiques des duels (sauvegardées) 
   const duelStats = useLocalStorage('hp_duelStats', {
     wins: 0,
     losses: 0,
